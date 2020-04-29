@@ -47,28 +47,22 @@ class ClickToTweet {
 	public function render_block( $attributes ) {
 
 		// Default values
-		$content = array_key_exists( 'content', $attributes ) ? $attributes['content'] : '';
-		$hashtags = array_key_exists( 'hashtags', $attributes ) ? $attributes['hashtags'] : '';
+		$content     = array_key_exists( 'content', $attributes ) ? $attributes['content'] : '';
+		$hashtags    = array_key_exists( 'hashtags', $attributes ) ? $attributes['hashtags'] : '';
 		$customClass = array_key_exists( 'className', $attributes ) ? ' ' . $attributes['className'] : '';
-
-    $url  = ( isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http" ) . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-    $url = urlencode( $url );
-
-    $user = $this->get_agb_or_yoast_twitter_user();
-
-    $content = str_replace( '<br/>', ' ', $content );
-    $content = urlencode( strip_tags( $content ) );
-
-    $hashtags = urlencode( $hashtags );
-
-    $intent_URL = "https://twitter.com/intent/tweet?url=$url&via=$user&text=$content&hashtags=$hashtags";
+		$url         = ( isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http" ) . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+		$url         = urlencode( $url );
+		$user        = $this->get_agb_or_yoast_twitter_user();
+		$content     = str_replace( [ '<br/>', '<br>', '<br />' ], ' ', $content );
+		$content     = urlencode( do_shortcode( strip_tags( $content ) ) );
+		$hashtags    = urlencode( $hashtags );
+		$intent_URL  = "https://twitter.com/intent/tweet?url=$url&via=$user&text=$content&hashtags=$hashtags";
 
 		// Start cached output
-		$output = "";
 		ob_start();
 
 		// Get template
-    include apply_filters( 'advanced_gutenberg_blocks_template', Consts::get_path() . 'public/templates/clicktotweet.php', 'clicktotweet' );
+		include apply_filters( 'advanced_gutenberg_blocks_template', Consts::get_path() . 'public/templates/clicktotweet.php', 'clicktotweet' );
 
 		// En cached output
 		$output = ob_get_contents();
