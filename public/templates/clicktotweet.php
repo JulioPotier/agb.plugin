@@ -1,7 +1,7 @@
 <?php defined( 'ABSPATH' ) || exit; ?>
 <a href="<?php echo $intent_URL; ?>" target="_blank" class='wp-block-advanced-gutenberg-blocks-clicktotweet<?php echo $customClass; ?>'>
   <div class='wp-block-advanced-gutenberg-blocks-clicktotweet__content'>
-    <?php echo $attributes['content']; ?>
+    <?php echo do_shortcode( $attributes['content'] ); ?>
   </div>
   <div class='wp-block-advanced-gutenberg-blocks-clicktotweet__footer'>
     <span><?php _e( 'Click to tweet', 'advanced-gutenberg-blocks' ); ?></span>
